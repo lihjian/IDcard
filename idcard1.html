@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>身份证查询</title>
+	 <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0,user-scalable=no">
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<style>
+	h1{color:#f00;font-size:50px;}
+	h2{color:#0f0;}
+	h3{color:#00f;}
+	</style>
+</head>
+<body>
+  <p>身份证查询</p>
+  <p>请输入身份证号码,再点击执行</p>
+  <input type="text" id="r1">
+  <button class="button">点击执行</button>
+	<script type="text/javascript">
+	var $button=$(".button");
+     $button.click(function(){  
+      var $r1=$("#r1")
+      var v = $r1.val();
+    var  isIDCard2=/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+     
+     if(!isIDCard2.test(v)){
+     	alert('请输入正确的身份证');
+     	return;
+     }
+    	$.ajax({
+	            url:'http://route.showapi.com/25-3',
+	            dataType: 'json',
+	            data: {
+	              'showapi_appid': 25923,
+	      'showapi_sign':'27a82e98b1a44698ac27f6f6b732289a',
+	      'id':v
+	          },
+	           success:function(res){
+	           console.log(res);
+	           var $h1 = $("<h1/>");
+	           var $h2 = $("<h2/>");
+	           var $h3 = $("<h3/>");
+
+$h1.html('地区:'+res.showapi_res_body.retData.address).appendTo('body');
+$h2.html('出生时间:'+res.showapi_res_body.retData.birthday).appendTo('body');
+$h3.html('性别:'+res.showapi_res_body.retData.sex).appendTo('body');
+      
+    	      }
+	        })	
+
+     }); 
+		
+
+</script>
+</body>
+</html>
